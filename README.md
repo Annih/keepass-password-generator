@@ -61,4 +61,4 @@ Invalid patterns raise an exception:
 
 ## Contributors
 
-- [Pavel Argentov](https://github.com/argent-smith)
+* [Pavel Argentov](https://github.com/argent-smith)
