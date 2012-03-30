@@ -1,5 +1,7 @@
 # keepass-password-generator
 
+[![Build Status](https://secure.travis-ci.org/patdeegan/keepass-password-generator.png?branch=master)](http://travis-ci.org/patdeegan/keepass-password-generator)
+
 Generate passwords using KeePass password generator patterns.
 
 ## RubyGems installation
