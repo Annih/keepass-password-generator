@@ -58,3 +58,7 @@ Invalid patterns raise an exception:
 
 * <https://github.com/dmke/simple-password-gen>
 * <http://rubygems.org/gems/ruby-password>
+
+## Contributors
+
+- [Pavel Argentov](https://github.com/argent-smith)
