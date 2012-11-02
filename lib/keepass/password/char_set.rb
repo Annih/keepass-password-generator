@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'set'
 
 module KeePass
@@ -23,7 +24,19 @@ module KeePass
       PRINTABLE_ASCII_SPECIAL = "!\"#\$%&'()*+,-./:;<=>?[\\]^_{|}~"
       UPPER_HEX        = "0123456789ABCDEF"
       LOWER_HEX        = "0123456789abcdef"
-      HIGH_ANSI        = (0x7f..0xfe).map { |i| i.chr }.join
+      HIGH_ANSI        = %w[007E 20AC 201A 0192 201E 2026 2020 2021 02C6 2030
+                            0160 2039 0152 017D 2018 2019 201C 201D 2022 2013
+                            2014 02DC 2122 0161 203A 0153 017E 0178 00A1 00A2
+                            00A3 00A4 00A5 00A6 00A7 00A8 00A9 00AA 00AB 00AC
+                            00AE 00AF 00B0 00B1 00B2 00B3 00B4 00B5 00B6 00B7
+                            00B8 00B9 00BA 00BB 00BC 00BD 00BE 00BF 00C0 00C1
+                            00C2 00C3 00C4 00C5 00C6 00C7 00C8 00C9 00CA 00CB
+                            00CC 00CD 00CE 00CF 00D0 00D1 00D2 00D3 00D4 00D5
+                            00D6 00D7 00D8 00D9 00DA 00DB 00DC 00DD 00DE 00DF
+                            00E0 00E1 00E2 00E3 00E4 00E5 00E6 00E7 00E8 00E9
+                            00EA 00EB 00EC 00ED 00EE 00EF 00F0 00F1 00F2 00F3
+                            00F4 00F5 00F6 00F7 00F8 00F9 00FA 00FB 00FC 00FD
+                            00FE].inject("") { |str, chr| str << chr.to_i(16) }
   
       DEFAULT_MAPPING = {
         'a' => [LOWERCASE, DIGITS],
