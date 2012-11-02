@@ -36,7 +36,7 @@ module KeePass
                             00E0 00E1 00E2 00E3 00E4 00E5 00E6 00E7 00E8 00E9
                             00EA 00EB 00EC 00ED 00EE 00EF 00F0 00F1 00F2 00F3
                             00F4 00F5 00F6 00F7 00F8 00F9 00FA 00FB 00FC 00FD
-                            00FE].inject("") { |str, chr| str << chr.to_i(16) }
+                            00FE].inject("") { |str, chr| str << [chr.hex].pack("U") }
   
       DEFAULT_MAPPING = {
         'a' => [LOWERCASE, DIGITS],
