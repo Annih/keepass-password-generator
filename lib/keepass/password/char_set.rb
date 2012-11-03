@@ -93,7 +93,7 @@ module KeePass
       # @param [Array] *strings one or more strings to add
       # @return [CharSet] self
       def add_from_strings(*strings)
-        strings.each { |s| merge Set.new(s.split('')) }
+        strings.each { |s| merge Set.new(s.scan(/./u)) }
         self
       end
   
