@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'spec_helper'
 
 describe KeePass::Password::CharSet do
@@ -25,7 +26,7 @@ describe KeePass::Password::CharSet do
     
     it "should allow x with default mapping" do
       subject.add_from_char_set_id('x')
-      subject.should include(0x7f.chr)
+      subject.should include([254].pack("U"))
     end
     
     it "should raise an error with ASCII mapping" do
