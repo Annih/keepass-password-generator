@@ -13,12 +13,7 @@ describe KeePass::Password::Generator do
   let(:random_class) { KeePass::Random }
   
   describe "pattern 'h{10}' (40-bit WEP key)" do
-  
     let(:pattern) { 'h{10}' }
-
-    its(:pattern) { should == 'h{10}' }
-    its(:permute) { should be_true }
-    its(:char_sets) { should have(10).items }
 
     it "should generate 10 hex digits " do
       random_class.should_receive(:sample_array) do |array|
@@ -37,11 +32,7 @@ describe KeePass::Password::Generator do
     
     let(:pattern) { 'HH\-HH\-HH\-HH\-HH\-HH' }
     let(:options) { { :permute => false } }
-  
-    its(:pattern) { should == 'HH\-HH\-HH\-HH\-HH\-HH' }
-    its(:permute) { should be_false }
-    its(:char_sets) { should have(17).items }
-    
+
     it "should generate a MAC address" do
       random_class.should_receive(:sample_array) do |array|
         if array == ['-']
@@ -60,11 +51,7 @@ describe KeePass::Password::Generator do
   describe "pattern 'uullA{6}'" do
     
     let(:pattern) { 'uullA{6}' }
-  
-    its(:pattern) { should == 'uullA{6}' }
-    its(:permute) { should be_true }
-    its(:char_sets) { should have(10).items }
-    
+
     it "should generate a 10-character alphanumeric password" do
       random_class.should_receive(:sample_array) do |array|
         array.sort.first
@@ -81,11 +68,7 @@ describe KeePass::Password::Generator do
     
     let(:pattern) { '[As]{20}' }
     let(:options) { { :remove_lookalikes => true } }
-    
-    its(:pattern) { should == '[As]{20}' }
-    its(:permute) { should be_true }
-    its(:char_sets) { should have(20).items }
-    
+
     it "should generate a 20-character password" do
       test_set = (char_set('A', 's') - Set.new(%w(O 0 l 1 I |))).to_a.sort
       i = 0

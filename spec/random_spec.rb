@@ -35,7 +35,7 @@ describe KeePass::Random do
   describe "#shuffle_array" do
 
     it "should call random_number with no parameters" do
-      described_class.should_receive(:random_number).with().at_least(5).times.and_return(0.5)
+      described_class.should_receive(:random_number).with(no_args).at_least(5).times.and_return(0.5)
       described_class.shuffle_array(%w(a b c d e))
     end
     
