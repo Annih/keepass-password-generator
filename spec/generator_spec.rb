@@ -11,7 +11,58 @@ describe KeePass::Password::Generator do
   subject { described_class.new(pattern, options) }
   let(:options) { { } }
   let(:random_class) { KeePass::Random }
-  
+
+  describe "pattern '^a'" do
+    let (:pattern) { '^a' }
+
+    it "should raise an error because set is empty" do
+      expect { subject }.to raise_error(KeePass::Password::InvalidPatternError)
+    end
+  end
+
+  describe "pattern '[^a]'" do
+    let (:pattern) { '[^a]' }
+
+    it "should raise an error because set is empty" do
+      expect { subject }.to raise_error(KeePass::Password::InvalidPatternError)
+    end
+  end
+
+  describe "pattern '[\\a^a]'" do
+    let (:pattern) { '[\a^a]' }
+
+    it "should raise an error because set is empty" do
+      expect { subject }.to raise_error(KeePass::Password::InvalidPatternError)
+    end
+  end
+
+  describe "pattern '[\\a\\b^a]'" do
+    let (:pattern) { '[\\a\\b^a]' }
+
+    it "should generate a single 'b'" do
+      subject.char_sets.should == [Set.new(['b'])]
+      subject.generate.should == 'b'
+    end
+  end
+
+  describe "pattern '[v^e^i^o^u]'" do
+    let (:pattern) { '[v^e^i^o^u]' }
+
+    it "should generate a single 'a'" do
+      subject.char_sets.should == [Set.new(['a'])]
+      subject.generate.should == 'a'
+    end
+  end
+
+  describe "pattern '\\^[\\^]'" do
+    let (:pattern) { '\\^[\\^]' }
+
+    it "should generate 2 '^'" do
+      subject.char_sets.should == [Set.new(['^']), Set.new(['^'])]
+      subject.generate.should == '^^'
+    end
+  end
+
   describe "pattern 'h{10}' (40-bit WEP key)" do
     let(:pattern) { 'h{10}' }
 

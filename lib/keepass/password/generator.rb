@@ -17,8 +17,8 @@ module KeePass
 
       # ASCII printables regular expression
       LITERALS_RE       = /[\x20-\x7e]/
-      CHAR_TOKEN_RE     = Regexp.new("([#{CHARSET_IDS}])|\\\\(#{LITERALS_RE.source})")
-      GROUP_TOKEN_RE    = Regexp.new("(#{CHAR_TOKEN_RE.source}|" + 
+      CHAR_TOKEN_RE     = Regexp.new("([#{CHARSET_IDS}])|\\\\(#{LITERALS_RE.source})|\\^(#{LITERALS_RE.source})")
+      GROUP_TOKEN_RE    = Regexp.new("(#{CHAR_TOKEN_RE.source}|" +
                                      "\\[((#{CHAR_TOKEN_RE.source})*?)\\])" +
                                      "(\\{(\\d+)\\})?")
       VALIDATOR_RE      = Regexp.new("\\A(#{GROUP_TOKEN_RE.source})+\\Z")
@@ -66,7 +66,7 @@ module KeePass
           mapping = options[:charset_mapping] || CharSet::DEFAULT_MAPPING
           char_sets = []
           i = 1
-          pattern.scan(GROUP_TOKEN_RE) do |x1, char, bs_char, char_group, x5, x6, x7, x8, repeat|
+          pattern.scan(GROUP_TOKEN_RE) do |x1, char, bs_char, ex_char, char_group, x6, x7, x8, x9, x10, repeat|
             char_set = CharSet.new
             char_set.mapping = mapping
             begin
@@ -74,12 +74,16 @@ module KeePass
                 char_set.add_from_char_set_id(char)
               elsif bs_char
                 char_set.add(bs_char)
+              elsif ex_char
+                char_set.delete(ex_char)
               else
-                char_group.scan(CHAR_TOKEN_RE) do |c, e|
-                  if c
-                    char_set.add_from_char_set_id(c)
+                char_group.scan(CHAR_TOKEN_RE) do |charset_id, character, exclude|
+                  if charset_id
+                    char_set.add_from_char_set_id(charset_id)
+                  elsif character
+                    char_set.add(character)
                   else
-                    char_set.add(e)
+                    char_set.delete(exclude)
                   end
                 end
               end
